@@ -9,18 +9,22 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { ProfileComponent } from './profile/profile.component';
 
+import {MatButtonModule , MatCheckboxModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
     SideBarComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
