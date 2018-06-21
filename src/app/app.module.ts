@@ -7,9 +7,18 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
-import { ProfileComponent } from './profile/profile.component';
 
-import {MatButtonModule , MatCheckboxModule } from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+import {
+  MatButtonModule ,
+  MatCheckboxModule ,
+  MatSidenavModule,
+  MatCardModule,
+} from '@angular/material';
+import { MembersComponent } from './members/members.component';
+import { ReportsComponent } from './reports/reports.component';
+import { LoansComponent } from './loans/loans.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +26,19 @@ import {MatButtonModule , MatCheckboxModule } from '@angular/material';
     LoginComponent,
     DashboardComponent,
     SideBarComponent,
-    ProfileComponent,
+    MembersComponent,
+    ReportsComponent,
+    LoansComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

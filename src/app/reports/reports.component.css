@@ -1,0 +1,4 @@
+@import "../side-bar/side-bar.component.css";
+.drawer{
+  background-color: rgba(34,32,47,0.96);
+}
