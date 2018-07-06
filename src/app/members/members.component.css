@@ -17,3 +17,73 @@ mem_search {
   min-width: 200px;
   max-width: 500px;
 }
+/***********    members profile card stylings *********************/
+.memProfile{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.memProfileDetails{
+  background-color: #f9f2f4;
+}
+#memberPicCard{
+  background-color: transparent;
+  /*align-self: flex-start;*/
+  align-self: flex-start;
+  margin-left: auto;
+
+}
+
+#memberPic{
+  height: 100px;
+  width: 100px;
+
+}
+
+#leaderPicCard{
+  background-color: transparent;
+  display: flex;
+  align-self: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+#leaderPicCard_content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#leaderPic{
+  height: 50px;
+  width: 50px;
+}
+ #leaderPic_lbl{
+   font-size: large;
+   color: rgba(57,70,182,0.89);
+   font-weight: 600;
+
+   font-family: "Adobe Ming Std L";
+ }
+ .leaderPic_details{
+   font-weight: 600;
+   font-size: medium;
+   color: #204d74;
+ }
+
+.memInfoSummary {
+  display: flex;
+  flex-direction: column;
+}
+.lbl_head{
+  padding-bottom: 20px;
+  font-size: medium;
+  color: #761c19;
+
+  font-family: "Adobe Ming Std L";
+}
+.lbl_values{
+  font-family: Algerian;
+  color: #1b6d85;
+  font-size: xx-large;
+}
+
+

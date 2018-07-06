@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
+import { MembersComponent } from './members/members.component';
+import { ReportsComponent } from './reports/reports.component';
+import { LoansComponent } from './loans/loans.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -19,10 +22,11 @@ import {
   MatInputModule,
   MatOptionModule,
   MatAutocompleteModule,
+  MatGridListModule,
+  MatDividerModule,
+
 } from '@angular/material';
-import { MembersComponent } from './members/members.component';
-import { ReportsComponent } from './reports/reports.component';
-import { LoansComponent } from './loans/loans.component';
+
 
 @NgModule({
   declarations: [
@@ -47,7 +51,10 @@ import { LoansComponent } from './loans/loans.component';
     MatInputModule,
     BrowserAnimationsModule,
     MatCardModule,
-    ReactiveFormsModule
+    MatGridListModule,
+    ReactiveFormsModule,
+    MatDividerModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
