@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +15,10 @@ import {
   MatCheckboxModule ,
   MatSidenavModule,
   MatCardModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatOptionModule,
+  MatAutocompleteModule,
 } from '@angular/material';
 import { MembersComponent } from './members/members.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -34,11 +38,16 @@ import { LoansComponent } from './loans/loans.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    MatAutocompleteModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatCheckboxModule,
     MatSidenavModule,
+    MatOptionModule,
+    MatInputModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

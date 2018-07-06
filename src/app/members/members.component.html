@@ -3,9 +3,27 @@
     <mat-drawer mode="side" class="drawer" opened="true">
       <app-side-bar></app-side-bar>
     </mat-drawer>
+    <mat-drawer-content>
+      <section class="search">
+        <form class="mem_search">
 
-    <mat-drawer-content>Main content
+          <mat-form-field class="mem_search_suggestions"> <!-- creating the form fild -->
+            <input  type="text" placeholder="search by name"  matInput [formControl]="searchNicForm" [matAutocomplete]="auto" >
+            <!-- declaring the form control-->
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option  *ngFor="let option of filteredOptions | async " [value]="option" >
+                {{ option }}
+              </mat-option>
+              <!-- adding filtered list of elements to the pane-->
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </section>
 
+
+      <div>
+
+      </div>
     </mat-drawer-content>
   </mat-drawer-container>
 

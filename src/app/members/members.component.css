@@ -3,3 +3,17 @@
 .drawer{
   background-color: rgba(34,32,47,0.96);
 }
+.search{
+  margin-left: 50px;
+  margin-top: 20px;
+}
+mem_search {
+  min-width: 250px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.mem_search_suggestions {
+  min-width: 200px;
+  max-width: 500px;
+}
