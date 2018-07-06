@@ -23,7 +23,9 @@
       <section class="member_card">
         <mat-card class="memProfileDetails">
           <mat-grid-list cols="3" rowHeight="5:2">
+            <!-- grid list of 3 coloums , 5:2 row length : height ratio is created -->
             <mat-grid-tile class="memProfile" colspan="1">
+              <!--  this will take one coloumn ,  indicated by colspan-->
               <mat-card id="memberPicCard" >
                 <img id="memberPic" src="../../assets/images/img.png">
               </mat-card>
@@ -62,6 +64,8 @@
               </mat-card>
 
             </mat-grid-tile>
+            <!-- this would take 2 coloums , indicated by colspan-->
+            <!-- if we keep on adding list items they will add creating new row after 3 coloums are filled-->
 
           </mat-grid-list>
         </mat-card>
