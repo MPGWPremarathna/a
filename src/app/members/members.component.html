@@ -30,12 +30,12 @@
                 <img id="memberPic" src="../../assets/images/img.png">
               </mat-card>
               <mat-card id="leaderPicCard">
-                  <mat-card-content id="leaderPicCard_content">
-                    <img id="leaderPic" src="../../assets/images/img.png">
-                    <label id="leaderPic_lbl" > {{leaderName}}</label>
-                  </mat-card-content>
-                  <label class="leaderPic_details"> {{teamName}}</label>
-                  <label class="leaderPic_details" > {{centerName}}</label>
+                <mat-card-content id="leaderPicCard_content">
+                  <img id="leaderPic" src="../../assets/images/img.png">
+                  <label id="leaderPic_lbl" > {{leaderName}}</label>
+                </mat-card-content>
+                <label class="leaderPic_details"> {{teamName}}</label>
+                <label class="leaderPic_details" > {{centerName}}</label>
               </mat-card>
 
             </mat-grid-tile>
@@ -81,7 +81,10 @@
                     Personal details
                   </mat-panel-title>
                   <mat-panel-description>
-                    {{nic}}
+                    <button mat-icon-button color="primary" (click)="personalDetEdit()">
+                      <i class="fas fa-edit fa-2x"></i>
+                    </button>
+
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list class="leftPannel_list">
@@ -100,7 +103,9 @@
                     Assts and Belongings
                   </mat-panel-title>
                   <mat-panel-description>
-                    {{nic}}
+                    <button mat-icon-button color="primary" (click)="assetsEdit()">
+                      <i class="fas fa-edit fa-2x"></i>
+                    </button>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -118,11 +123,11 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Center Details
+                    Center & Team Details
                   </mat-panel-title>
                   <mat-panel-description id="center_des">
-                    <button mat-icon-button color="primary">
-
+                    <button mat-icon-button color="primary" (click)="centerEdit()">
+                      <i class="fas fa-edit fa-2x"></i>
                     </button>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -145,19 +150,21 @@
           <div id="right_pane">
             <section id="loanCycle_05">
               <mat-expansion-panel>
-              <mat-expansion-panel-header class="right_expPannel_head">
-                <mat-panel-title>
-                  Loan Cycle 05
-                </mat-panel-title>
-                <mat-panel-description>
-
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <mat-list class="leftPannel_list">
-                <mat-list-item class="lc_info"> loan Amount : 12500 </mat-list-item>
-                <mat-divider></mat-divider>
-                <mat-list-item class="lc_info"> attendace : 85%</mat-list-item>
-              </mat-list>
+                <mat-expansion-panel-header class="right_expPannel_head">
+                  <mat-panel-title>
+                    Loan Cycle 05
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <button mat-icon-button color="primary" (click)="loanCycleEdit()">
+                      <i class="fas fa-edit fa-2x"></i>
+                    </button>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list class="leftPannel_list">
+                  <mat-list-item class="lc_info"> loan Amount : 12500 </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item class="lc_info"> attendace : 85%</mat-list-item>
+                </mat-list>
 
               </mat-expansion-panel>
             </section>

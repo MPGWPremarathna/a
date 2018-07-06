@@ -3,7 +3,7 @@ import {SideBarComponent} from '../side-bar/side-bar.component';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-
+// import {faEdit} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -45,5 +45,17 @@ export class MembersComponent implements OnInit {
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
 
+  }
+  personalDetEdit() {
+    alert('edit clicked');
+  }
+  assetsEdit() {
+    alert('ass..edit');
+  }
+  centerEdit() {
+    alert('center...edit');
+  }
+  loanCycleEdit() {
+    alert('loan..... edit');
   }
 }

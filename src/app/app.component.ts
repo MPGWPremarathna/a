@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {LoginComponent} from './login/login.component';
+// import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,5 @@ import {LoginComponent} from './login/login.component';
 })
 export class AppComponent {
   title = 'app';
+
 }
