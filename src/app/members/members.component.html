@@ -18,6 +18,9 @@
             </mat-autocomplete>
           </mat-form-field>
         </form>
+      </section>
+
+      <section class="member_card">
         <mat-card class="memProfileDetails">
           <mat-grid-list cols="3" rowHeight="5:2">
             <mat-grid-tile class="memProfile" colspan="1">
@@ -32,8 +35,6 @@
                   <label class="leaderPic_details"> {{teamName}}</label>
                   <label class="leaderPic_details" > {{centerName}}</label>
               </mat-card>
-
-              <mat-divider [vertical]="true"></mat-divider>
 
             </mat-grid-tile>
             <mat-grid-tile class="memInfoSummary" colspan="2">
@@ -66,6 +67,100 @@
         </mat-card>
       </section>
 
+      <mat-grid-list cols="2">
+        <mat-grid-tile >
+          <div id="left_pane">
+            <section id="personalDetails">
+              <mat-expansion-panel class="left_expPannel">
+                <mat-expansion-panel-header class="left_expPannel_head">
+                  <mat-panel-title>
+                    Personal details
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{nic}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list class="leftPannel_list">
+                  <mat-list-item class="pd_info"> full name : {{name}} </mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item class="pd_info"> age : {{age}}</mat-list-item>
+                </mat-list>
+
+              </mat-expansion-panel>
+            </section>
+
+            <section id="assets">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Assts and Belongings
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{nic}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-form-field>
+                  <input matInput placeholder="First name">
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Age">
+                </mat-form-field>
+              </mat-expansion-panel>
+            </section>
+
+            <section id="centerDetails">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Center Details
+                  </mat-panel-title>
+                  <mat-panel-description id="center_des">
+                    <button mat-icon-button color="primary">
+
+                    </button>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-form-field>
+                  <input matInput placeholder="First name">
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input matInput placeholder="Age">
+                </mat-form-field>
+              </mat-expansion-panel>
+            </section>
+
+          </div>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <div id="right_pane">
+            <section id="loanCycle_05">
+              <mat-expansion-panel>
+              <mat-expansion-panel-header class="right_expPannel_head">
+                <mat-panel-title>
+                  Loan Cycle 05
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-list class="leftPannel_list">
+                <mat-list-item class="lc_info"> loan Amount : 12500 </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item class="lc_info"> attendace : 85%</mat-list-item>
+              </mat-list>
+
+              </mat-expansion-panel>
+            </section>
+          </div>
+        </mat-grid-tile>
+
+      </mat-grid-list>
 
       <div>
 

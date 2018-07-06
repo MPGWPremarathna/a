@@ -15,6 +15,8 @@ export class MembersComponent implements OnInit {
   searchNicForm = new FormControl(); // declaration of the form control
   options: string[] = ['One', 'Two', 'Three']; // options list
   filteredOptions: Observable<string[]>; // set of filtered options
+  // member details
+  name: String = 'Dinith';
   leaderName: String = 'Chamaka';
   teamName: String = 'team01';
   centerName: String = 'Gampaha';
@@ -22,7 +24,8 @@ export class MembersComponent implements OnInit {
   shouldPay: Number = 12500.00;
   paid: Number = 12000.00;
   attedencePercent: Number = 95.0;
-
+  nic: String = '953280086v';
+  age: Number = 20;
 
 
   constructor() {

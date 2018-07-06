@@ -24,6 +24,10 @@ import {
   MatAutocompleteModule,
   MatGridListModule,
   MatDividerModule,
+  MatExpansionModule,
+  MatIconModule,
+  MatListModule,
+
 
 } from '@angular/material';
 
@@ -54,6 +58,9 @@ import {
     MatGridListModule,
     ReactiveFormsModule,
     MatDividerModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatListModule,
 
   ],
   providers: [],

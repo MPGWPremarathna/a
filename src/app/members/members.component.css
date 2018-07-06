@@ -1,5 +1,8 @@
 @import "../side-bar/side-bar.component.css"; /* imprting the side bar css files */
 
+
+
+/***************  Search section Stylings *****************/
 .drawer{
   background-color: rgba(34,32,47,0.96);
 }
@@ -86,4 +89,49 @@ mem_search {
   font-size: xx-large;
 }
 
+/********   left pane stylings ************/
+#left_pane{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
+/*.left_expPannel{*/
+  /*display: flex;*/
+  /*align-self: stretch;*/
+  /*flex-direction: column;*/
+/*}*/
+
+/*.left_expPannel_head{*/
+  /*width: 100%;*/
+  /*display: flex;*/
+  /*align-self: stretch;*/
+/*}*/
+#personalDetails{
+  display: flex;
+  align-items: flex-start;
+  /*width: 150%;*/
+}
+/*.leftPannel_list{*/
+/*width: 200%;*/
+/*}*/
+
+
+
+/************* section center info stylings *********/
+
+#center_des{
+  font-weight: 600;
+}
+
+
+/*************    Right pane *********************/
+#right_pane{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
