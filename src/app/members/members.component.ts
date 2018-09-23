@@ -43,6 +43,11 @@ export class MembersComponent implements OnInit {
   gender: String = '';
 
 
+  // member fixed assets detials
+  fixedAssetCollection: string[] = [];
+
+
+
   constructor(private  router: Router, private  apiService: ApiService) {
   }
 
@@ -95,16 +100,32 @@ export class MembersComponent implements OnInit {
             // getting the team related data
             this.getTeamData(data);
             this.getLoanData();
+            this.getCustomerAsset();
           });
       }
     });
+  }
+  private getCustomerAsset() {
+    this.apiService.getUrl(`cusAs/${this.nic}/${this.companyId}`)
+      .subscribe((customerAss: Array<object>) => {
+          customerAss.forEach((asset) => {
+            const fixedAsset = {
+              'name' : asset['name'],
+              'value': asset['value'],
+              'lifeTime': asset['lifeTime'],
+              'description': asset['description']
+            };
+            this.fixedAssetCollection.push(fixedAsset);
+          });
+          console.log(this.fixedAssetCollection);
+      });
   }
 
   private getTeamData(data) {
     let teamId: string;
     this.apiService.getUrl(`tmem/${this.nic}/${this.companyId}`)
       .subscribe((result) => {
-        console.log(result);
+        // console.log(result);
         teamId = result['teamId'];
         this.teamMemId = result['idteamMember'];
         this.getAttendence(); // attedence can be obtained only after team member id
@@ -121,11 +142,11 @@ export class MembersComponent implements OnInit {
     this.apiService.getUrl(`att/${this.teamMemId}/1`)
       .subscribe((count) => {
         preserntCount = Number.parseInt(count['count']);
-        console.log('present:' + preserntCount);
+        // console.log('present:' + preserntCount);
         this.apiService.getUrl(`att/${this.teamMemId}/0`)
           .subscribe((countNew) => {
             absentCount = Number.parseInt(countNew['count']);
-            console.log('absemt:' + absentCount);
+            // console.log('absemt:' + absentCount);
             this.attedencePercent = preserntCount / (preserntCount + absentCount) * 100;
           });
     });
@@ -134,11 +155,11 @@ export class MembersComponent implements OnInit {
   private getLoanData() {
     this.apiService.getUrl(`lc/${this.nic}/${this.companyId}/1`)
       .subscribe((result) => {
-        console.log(result);
+        // console.log(result);
         this.loanAmount = result['amount'];
         this.apiService.getUrl(`pmt/sum/${result['idLoanCycle']}`)
           .subscribe((amount) => {
-            console.log(amount);
+            // console.log(amount);
             this.paid = Number.parseInt(amount['sum(payment.amount)'].toString());
             this.shouldPay = this.loanAmount - this.paid;
           });

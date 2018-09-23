@@ -115,14 +115,32 @@
                     </button>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
+                <mat-list *ngFor="let asset of fixedAssetCollection">
 
-                <mat-form-field>
-                  <input matInput placeholder="First name">
-                </mat-form-field>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          {{asset.name}}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-list >
+                        <mat-list-item>lifetme : {{asset.lifeTime}}</mat-list-item>
+                        <mat-list-item>value : {{asset.value}}</mat-list-item>
+                        <mat-list-item>descrption :{{asset.description}}</mat-list-item>
+                      </mat-list>
+                    </mat-expansion-panel>
 
-                <mat-form-field>
-                  <input matInput placeholder="Age">
-                </mat-form-field>
+
+
+
+                </mat-list>
+                <!--<mat-form-field>-->
+                  <!--<input matInput placeholder="First name">-->
+                <!--</mat-form-field>-->
+
+                <!--<mat-form-field>-->
+                  <!--<input matInput placeholder="Age">-->
+                <!--</mat-form-field>-->
               </mat-expansion-panel>
             </section>
 
