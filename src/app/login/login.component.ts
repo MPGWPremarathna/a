@@ -20,6 +20,10 @@ export class LoginComponent implements OnInit {
   }
 
   onClick() {
+    // const 0ara2 = {
+    //   'un' : this.userName,
+    //   'pw' : this.password
+    // }
     const para = {
       'un': `${this.userName}`,
       'pw': `${this.password}`

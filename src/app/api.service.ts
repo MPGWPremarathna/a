@@ -5,16 +5,16 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-  API_URL = "http://localhost:3000";
-  constructor(private httpClient : HttpClient) {
+  API_URL = 'http://localhost:3000';
+  constructor(private httpClient: HttpClient) {
 
    }
-   getUrl(path){
+   getUrl(path) {
     return this.httpClient.get(`${this.API_URL}/api/${path}`);
   }
 
-  postUrl(path,data){
-    return this.httpClient.post(`${this.API_URL}/api/${path}`,data);
+  postUrl(path, data) {
+    return this.httpClient.post(`${this.API_URL}/api/${path}`, data);
   }
- 
+
 }

@@ -8,7 +8,8 @@
         <form class="mem_search">
 
           <mat-form-field class="mem_search_suggestions"> <!-- creating the form fild -->
-            <input  type="text" placeholder="search by name"  matInput [formControl]="searchNicForm" [matAutocomplete]="auto" >
+            <input #nameInput  type="text" placeholder="search by name"  matInput [formControl]="searchNicForm" [matAutocomplete]="auto"
+              (keyup.enter)="onNameEnter(nameInput.value)" >
             <!-- declaring the form control-->
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option  *ngFor="let option of filteredOptions | async " [value]="option" >
@@ -88,9 +89,15 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list class="leftPannel_list">
+                  <mat-list-item class="pd_info"> NIC : {{nic}} </mat-list-item>
+                  <mat-divider></mat-divider>
                   <mat-list-item class="pd_info"> full name : {{name}} </mat-list-item>
                   <mat-divider></mat-divider>
-                  <mat-list-item class="pd_info"> age : {{age}}</mat-list-item>
+                  <mat-list-item class="pd_info"> birthday : {{birtdate}}</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item class="pd_info"> address : {{address}}</mat-list-item>
+                  <mat-divider></mat-divider>
+                  <mat-list-item class="pd_info"> status : {{status}}</mat-list-item>
                 </mat-list>
 
               </mat-expansion-panel>
