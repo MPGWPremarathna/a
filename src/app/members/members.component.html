@@ -74,8 +74,8 @@
         </mat-card>
       </section>
 
-      <mat-grid-list cols="2">
-        <mat-grid-tile >
+      <mat-grid-list cols="4" rowHeight="1:2">
+        <mat-grid-tile  colspan="1">
           <div id="left_pane" >
             <section id="personalDetails">
               <mat-expansion-panel class="left_expPannel" >
@@ -160,8 +160,8 @@
 
         </mat-grid-tile>
 
-        <mat-grid-tile>
-          <div id="right_pane">
+        <mat-grid-tile colspan="1">
+          <div id="center_pane">
             <section id="loanCycle_05">
               <mat-list *ngFor="let loanCycle of loanCycleInfo">
                 <mat-expansion-panel>
@@ -195,6 +195,20 @@
               </mat-list>
 
             </section>
+          </div>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="2">
+          <div id="center_pane">
+           <table>
+             <tr >
+                <td style="width: 700px; height: 50%">
+                  <canvas id="LineChart">
+
+                  </canvas>
+                </td>
+             </tr>
+           </table>
           </div>
         </mat-grid-tile>
 

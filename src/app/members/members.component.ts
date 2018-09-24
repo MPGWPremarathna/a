@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {map, startWith} from 'rxjs/operators';
 import {ApiService} from '../api.service';
+import {Chart} from 'chart.js';
 // import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 // import {forEach} from '@angular/router/src/utils/collection';
 // import {faEdit} from '@fortawesome/free-solid-svg-icons';
@@ -35,8 +36,8 @@ export class MembersComponent implements OnInit {
   teamName: String = 'team01';
   centerName: String = 'Gampaha';
   loanAmount: Number = 0.0;
-  shouldPay: Number = 12500.00;
-  paid: Number = 12000.00;
+  shouldPay: Number = 0.00;
+  paid: Number = 0.00;
   attedencePercent: Number = 95.0;
   nic: String = 'nic01';
   birtdate: String = '';
@@ -44,7 +45,12 @@ export class MembersComponent implements OnInit {
   status: String = '';
   gender: String = '';
 
-
+  // chart details and the fields
+  LineChart = [];
+  paymentDates: string[] = [];
+  cumAmountArr: number[] = [];
+  grantedDate: string;
+  dueDate: string;
 
   fixedAssetCollection: Object[] = []; // member fixed assets detials
   center = {
@@ -76,6 +82,48 @@ export class MembersComponent implements OnInit {
         startWith(''),
         map(value => this.filter(value))
       );
+  }
+  // creating the line chart
+  private createLineChart() {
+    // creating the new chart
+    this.LineChart = new Chart('LineChart',
+      {
+        type: 'line',
+        data: {
+          labels: this.paymentDates,
+          datasets: [{
+            label: 'amount paid',
+            data: this.cumAmountArr,
+            fill: false,
+            lineTension: 0.2,
+            borderColor: 'red',
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          title: {
+            text: 'Cumulative loan paymnet',
+            display: true
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                max: this.loanAmount,
+              }
+            }],
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'month',
+                min: this.grantedDate,
+                max: this.dueDate,
+              }
+            }]
+          }
+        },
+
+      });
   }
   // getting the filtered list of options for give characters
   private filter(value: string): string[] {
@@ -183,6 +231,10 @@ export class MembersComponent implements OnInit {
       .subscribe((result) => {
         // console.log(result);
         this.loanAmount = result['amount'];
+        this.grantedDate = result['grantedDate'].substring(0, 10);
+        this.dueDate = result['dueDate'].substring(0 , 10);
+
+        // getting the sum of the payments
         this.apiService.getUrl(`pmt/sum/${result['idLoanCycle']}`)
           .subscribe((amount) => {
             // console.log(amount);
@@ -190,7 +242,25 @@ export class MembersComponent implements OnInit {
             // this.paid = amount['amount'];
             this.shouldPay = this.loanAmount - this.paid;
           });
+
+            // getting the individual payments amounts for the chart
+        this.apiService.getUrl(`pmt/lcid/${result['idLoanCycle']}`)
+          .subscribe( (pmnts: Array<object>) => {
+            let cumAmount: Number = 0;
+            pmnts.forEach((pmt) => {
+              // console.log(pmt);
+                const pmtDate = pmt['dateNtime'].toString().substring(0 , 10);
+               cumAmount = cumAmount + pmt['amount'];
+              // cumAmount = cumAmount + 200;
+              this.paymentDates.push(pmtDate);
+              this.cumAmountArr.push(cumAmount);
+              // console.log(this.paymentDates);
+              // console.log(this.cumAmountArr);
+              this.createLineChart();
+            });
+          });
       });
+
   }
 
   private  getLoanCycleInfo() {
