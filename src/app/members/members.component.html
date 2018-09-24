@@ -4,7 +4,7 @@
       <app-side-bar></app-side-bar>
     </mat-drawer>
     <mat-drawer-content>
-      <section class="search">
+      <section class="search" id="searchSection">
         <form class="mem_search">
 
           <mat-form-field class="mem_search_suggestions"> <!-- creating the form fild -->
@@ -18,7 +18,9 @@
               <!-- adding filtered list of elements to the pane-->
             </mat-autocomplete>
           </mat-form-field>
+
         </form>
+        <button mat-raised-button color="primary" id="btnAddNew" (click)="openAddLoan()"> Add new </button>
       </section>
 
       <section class="member_card">
@@ -74,9 +76,9 @@
 
       <mat-grid-list cols="2">
         <mat-grid-tile >
-          <div id="left_pane">
+          <div id="left_pane" >
             <section id="personalDetails">
-              <mat-expansion-panel class="left_expPannel">
+              <mat-expansion-panel class="left_expPannel" >
                 <mat-expansion-panel-header class="left_expPannel_head">
                   <mat-panel-title>
                     Personal details
@@ -129,18 +131,7 @@
                         <mat-list-item>descrption :{{asset.description}}</mat-list-item>
                       </mat-list>
                     </mat-expansion-panel>
-
-
-
-
                 </mat-list>
-                <!--<mat-form-field>-->
-                  <!--<input matInput placeholder="First name">-->
-                <!--</mat-form-field>-->
-
-                <!--<mat-form-field>-->
-                  <!--<input matInput placeholder="Age">-->
-                <!--</mat-form-field>-->
               </mat-expansion-panel>
             </section>
 
@@ -148,7 +139,7 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Center & Team Details
+                    Center  Details
                   </mat-panel-title>
                   <mat-panel-description id="center_des">
                     <button mat-icon-button color="primary" (click)="centerEdit()">
@@ -157,13 +148,11 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <mat-form-field>
-                  <input matInput placeholder="First name">
-                </mat-form-field>
-
-                <mat-form-field>
-                  <input matInput placeholder="Age">
-                </mat-form-field>
+                <mat-list>
+                  <mat-list-item> name : {{center.name}}</mat-list-item>
+                  <mat-list-item> address : {{center.address}}</mat-list-item>
+                  <mat-list-item> status : {{center.status}}</mat-list-item>
+                </mat-list>
               </mat-expansion-panel>
             </section>
 
@@ -174,24 +163,37 @@
         <mat-grid-tile>
           <div id="right_pane">
             <section id="loanCycle_05">
-              <mat-expansion-panel>
-                <mat-expansion-panel-header class="right_expPannel_head">
-                  <mat-panel-title>
-                    Loan Cycle 05
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    <button mat-icon-button color="primary" (click)="loanCycleEdit()">
-                      <i class="fas fa-edit fa-2x"></i>
-                    </button>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <mat-list class="leftPannel_list">
-                  <mat-list-item class="lc_info"> loan Amount : 12500 </mat-list-item>
-                  <mat-divider></mat-divider>
-                  <mat-list-item class="lc_info"> attendace : 85%</mat-list-item>
-                </mat-list>
+              <mat-list *ngFor="let loanCycle of loanCycleInfo">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header class="right_expPannel_head">
+                    <mat-panel-title>
+                      {{loanCycle.ref}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <button mat-icon-button color="primary" (click)="loanCycleEdit()">
+                        <i class="fas fa-edit fa-2x"></i>
+                      </button>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <mat-list class="leftPannel_list">
+                    <mat-list-item class="lc_info"> loan Amount : {{loanCycle.amount}} </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="lc_info"> intrest rate : {{loanCycle.intRate}} </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="lc_info"> compounded : {{loanCycle.comp}} </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="lc_info"> granted date : {{loanCycle.grantedDate}} </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="lc_info"> due date : {{loanCycle.dueDate}} </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="lc_info"> status date : {{loanCycle.status}} </mat-list-item>
+                    <mat-divider></mat-divider>
 
-              </mat-expansion-panel>
+                  </mat-list>
+
+                </mat-expansion-panel>
+              </mat-list>
+
             </section>
           </div>
         </mat-grid-tile>

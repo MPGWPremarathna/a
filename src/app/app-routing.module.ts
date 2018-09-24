@@ -5,10 +5,10 @@ import {LoginComponent} from './login/login.component';
 import {MembersComponent} from './members/members.component';
 import {ReportsComponent} from './reports/reports.component';
 import {LoansComponent} from './loans/loans.component';
+// import {BottomSheetOverviewExampleSheet} from './members/members.component';
 
 
 const routes: Routes = [
-
   {
     path: '',
     component: LoginComponent
@@ -28,9 +28,7 @@ const routes: Routes = [
   {
     path: 'loans',
     component: LoansComponent
-  }
-
-
+  },
 ];
 
 @NgModule({

@@ -1,20 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
+// import {MatDialogModule} from '@angular/material';
 
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
-import { MembersComponent } from './members/members.component';
+import { MembersComponent} from './members/members.component';
 import { ReportsComponent } from './reports/reports.component';
 import { LoansComponent } from './loans/loans.component';
 
 // importing modules
 import { AppRoutingModule } from './app-routing.module';
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -32,8 +33,6 @@ import {
   MatExpansionModule,
   MatIconModule,
   MatListModule,
-
-
 } from '@angular/material';
 
 
@@ -68,6 +67,9 @@ import {
     MatIconModule,
     MatListModule,
     HttpClientModule,
+
+  ],
+  entryComponents: [
 
   ],
   providers: [],

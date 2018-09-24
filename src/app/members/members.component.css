@@ -11,9 +11,22 @@
   margin-top: 20px;
 }
 mem_search {
+  align-items: flex-start;
   min-width: 250px;
   max-width: 500px;
   width: 100%;
+}
+#searchSection{
+  display: flex;
+  flex-direction: row;
+}
+#btnAddNew{
+  display: flex;
+  background-color: #25bd1d;
+  font-weight: 500;
+  font-size: large;
+  align-self: center;
+  margin-left: 50px;
 }
 
 .mem_search_suggestions {
@@ -95,7 +108,14 @@ mem_search {
   width: 100%;
   display: flex;
   flex-direction: column;
+
   align-items: flex-start;
+}
+mat-expansion-panel-header{
+  width: inherit;
+}
+mat-panel-title{
+  width: 200%;
 }
 
 /*.left_expPannel{*/

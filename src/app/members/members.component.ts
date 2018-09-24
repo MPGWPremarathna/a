@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import {SideBarComponent} from '../side-bar/side-bar.component';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {map, startWith} from 'rxjs/operators';
 import {ApiService} from '../api.service';
+// import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 // import {forEach} from '@angular/router/src/utils/collection';
 // import {faEdit} from '@fortawesome/free-solid-svg-icons';
 
@@ -21,6 +22,7 @@ export class MembersComponent implements OnInit {
   //   'name': String,
   // };
   memInfo: object[] = [];
+  loanCycleInfo: object[] = [];
   teamMemId: string;
 
 
@@ -43,9 +45,13 @@ export class MembersComponent implements OnInit {
   gender: String = '';
 
 
-  // member fixed assets detials
-  fixedAssetCollection: string[] = [];
 
+  fixedAssetCollection: Object[] = []; // member fixed assets detials
+  center = {
+    'name' : '',
+    'address': '',
+    'status': ''
+  }; // center details
 
 
   constructor(private  router: Router, private  apiService: ApiService) {
@@ -80,6 +86,7 @@ export class MembersComponent implements OnInit {
   }
    public onNameEnter(nameStr: string) {
     console.log(nameStr);
+    this.loanCycleInfo.length = 0 ; // clearing the loan cycle array
     this.memInfo.forEach((item) => {
       if (item['name'] === nameStr) {
         // console.log(item['nic']);
@@ -101,6 +108,7 @@ export class MembersComponent implements OnInit {
             this.getTeamData(data);
             this.getLoanData();
             this.getCustomerAsset();
+            this.getLoanCycleInfo();
           });
       }
     });
@@ -129,10 +137,28 @@ export class MembersComponent implements OnInit {
         teamId = result['teamId'];
         this.teamMemId = result['idteamMember'];
         this.getAttendence(); // attedence can be obtained only after team member id
+        this.getCenterData(teamId);
         this.apiService.getUrl(`team/${teamId}`)
           .subscribe((teamInfo) => {
             console.log(teamInfo);
           });
+      });
+  }
+  // getting the center data
+  private getCenterData(teamId: string) {
+    this.apiService.getUrl(`cen/team/${teamId}`)
+      .subscribe((info) => {
+      let status: string;
+      if (info['status'] === 1) {
+        status = 'active';
+      } else {
+        status = 'inactive';
+      }
+        this.center = {
+          'name' : info['centerName'],
+          'address': info['centerAdress'],
+          'status': status
+        };
       });
   }
   // getting the currentactive loan cycle
@@ -161,21 +187,67 @@ export class MembersComponent implements OnInit {
           .subscribe((amount) => {
             // console.log(amount);
             this.paid = Number.parseInt(amount['sum(payment.amount)'].toString());
+            // this.paid = amount['amount'];
             this.shouldPay = this.loanAmount - this.paid;
           });
       });
   }
 
-  personalDetEdit() {
+  private  getLoanCycleInfo() {
+    this.apiService.getUrl(`lc/cus/all/${this.nic}/${this.companyId}`)
+      .subscribe((loanCycle: Array <object>) => {
+      loanCycle.forEach((lc) => {
+        let status: string;
+        const intRateId = lc['intRateId'];
+        if (lc['ststus'] === 1) {
+          status = ' active';
+        } else {
+          status = 'inactive';
+        }
+        this.apiService.getUrl(`int/${intRateId}`)
+          .subscribe((intInfo) => {
+            const info = {
+              'ref' : lc['loanCycRef'],
+              'amount' : lc['amount'],
+              'grantedDate' : lc['grantedDate'].substring(0 , 10),
+              'dueDate' : lc['dueDate'].substring(0 , 10),
+              'status': status,
+              'intRate': `${intInfo['amount']}%`,
+              'comp': intInfo['compundingPeriod']
+            };
+            this.loanCycleInfo.push(info);
+          });
+        // console.log(this.loanCycleInfo);
+      });
+    });
+  }
+
+  public personalDetEdit() {
     alert('edit clicked');
   }
-  assetsEdit() {
+  public assetsEdit() {
     alert('ass..edit');
   }
-  centerEdit() {
+  public centerEdit() {
     alert('center...edit');
   }
-  loanCycleEdit() {
+  public loanCycleEdit() {
     alert('loan..... edit');
   }
+
+  openAddLoan() {
+    alert('add loan clicked');
+    // const addCusForm = this.dialog.open(AddCustomerDialog, {
+    //   width: '250px',
+    //   data: {'comId': this.companyId}
+    // });
+  }
 }
+
+// crating the add loan form  dialog
+// export class AddCustomerDialog {
+//   constructor(
+//     public dialogRef: MatDialogRef<AddCustomerDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+//
+// }
