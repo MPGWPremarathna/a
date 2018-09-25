@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule  } from '@angular/core';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {AgmCoreModule} from '@agm/core';
 // import {MatDialogModule} from '@angular/material';
 
 
@@ -67,6 +68,9 @@ import {
     MatIconModule,
     MatListModule,
     HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAWDz8nTa-dX9SsLdeIQSckoJ-XUqXjc3U'
+    }),
 
   ],
   entryComponents: [

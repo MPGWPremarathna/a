@@ -35,9 +35,9 @@ export class MembersComponent implements OnInit {
   leaderName: String = 'leader01';
   teamName: String = 'team01';
   centerName: String = 'Gampaha';
-  loanAmount: Number = 0.0;
-  shouldPay: Number = 0.00;
-  paid: Number = 0.00;
+  loanAmount: number = 0.0;
+  shouldPay: number = 0.00;
+  paid: number = 0.00;
   attedencePercent: Number = 95.0;
   nic: String = 'nic01';
   birtdate: String = '';
@@ -211,8 +211,8 @@ export class MembersComponent implements OnInit {
   }
   // getting the currentactive loan cycle
   private getAttendence() {
-    let preserntCount: Number = 0;
-    let absentCount: Number = 0;
+    let preserntCount: number = 0;
+    let absentCount: number = 0;
     this.apiService.getUrl(`att/${this.teamMemId}/1`)
       .subscribe((count) => {
         preserntCount = Number.parseInt(count['count']);
@@ -246,7 +246,7 @@ export class MembersComponent implements OnInit {
             // getting the individual payments amounts for the chart
         this.apiService.getUrl(`pmt/lcid/${result['idLoanCycle']}`)
           .subscribe( (pmnts: Array<object>) => {
-            let cumAmount: Number = 0;
+            let cumAmount: number = 0;
             pmnts.forEach((pmt) => {
               // console.log(pmt);
                 const pmtDate = pmt['dateNtime'].toString().substring(0 , 10);
