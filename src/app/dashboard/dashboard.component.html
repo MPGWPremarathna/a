@@ -25,7 +25,9 @@
 
             </form>
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)] = 'dateSel' data-date-format='YYYY-MM-DD' >
+              <!-- input field with the date picker propertese are crated -->
+                <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)] = 'dateSel'  >
+              <!-- the [(ngModel)] captures the selected date and sync with ts file-->
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
@@ -37,8 +39,7 @@
           <section id="empMap">
             <!-- creating the map with specifying the coordinates that the map should be centered on  -->
             <agm-map [latitude]="lati" [longitude]="long" (mapclick)="mapClicked(event)"  >
-              <!-- create a set of markers on the map through for loop , markets
-                langitude and longitude should be provided -->
+
               <agm-marker  *ngFor="let marker of markers" [latitude]="marker.lati" [longitude]="marker.long" >
                 <!-- giving an information window when the marker is clicked -->
                 <agm-info-window>
@@ -46,6 +47,17 @@
                 </agm-info-window>
               </agm-marker>
             </agm-map>
+          </section>
+          <section id="weekCollectionsComparison">
+            <table>
+              <tr >
+                <td style="width: 700px; height: 50%">
+                  <canvas id="LineChartCollections">
+
+                  </canvas>
+                </td>
+              </tr>
+            </table>
           </section>
           </div>
         </mat-grid-tile>
