@@ -43,11 +43,17 @@ export class DashboardComponent implements OnInit {
   lati: Number = 7.093543;
   long: Number = 79.9915147;
 
-  // variables related to creating of table
+  // variables related to creating of emp collection chart
   begofWeek: String;
+  LineChart = [];
   endofWeek: String;
   payments: string[] = [];
   days: string[] = [];
+
+  // varibles related to emplyeee centerwise collection chart in a month
+  centerAmounts: string[] = [];
+  centerNames: string[] = [];
+  CenterChart = [];
 
   constructor(private  apiService: ApiService) {
   }
@@ -105,10 +111,12 @@ export class DashboardComponent implements OnInit {
       console.log(emp);
       if (this.nameSel === emp['name']) {
         nic = emp['nic'];
+        // return;
       }
     });
     this.getEmployeeLoc(nic);
     this.getEmployeeChartData(nic);
+    this.getCenterwiseCollectionData(nic);
     // console.log(nic);
   }
 
@@ -133,6 +141,43 @@ export class DashboardComponent implements OnInit {
 
 
 // chart cretion functions
+  private  getCenterwiseCollectionData(nic){
+    const month = moment(this.dateSel).format('YYYY-MM');
+    // console.log(month);
+    this.apiService.getUrl(`cen`)
+      .subscribe((centers: Array<object>) =>{
+          let i = 0;
+         centers.forEach((cen) => {
+           // console.log(cen);
+
+           this.apiService.getUrl(`pmt/${cen['idcenter']}/${nic}/${month}`)
+             .subscribe((pmtDet) => {
+               console.log(pmtDet);
+               i++;
+               if (pmtDet['total']) {
+                 this.centerAmounts.push(pmtDet['total'].toString());
+                 this.centerNames.push(pmtDet['centerName'].toString());
+               }
+               // console.log(this.centerTotal);
+               // console.log(this.centerNames);
+               if (i === centers.length) {
+                 this.createCenterwiseCollectionChart();
+                 // this.createCenterwiseCollectionChart();
+                 console.log(this.centerAmounts);
+                 console.log(this.centerNames);
+               }
+             });
+
+           // console.log(centers.length);
+
+
+         });
+         });
+
+
+  }
+
+
   private getEmployeeChartData(nic) {
     this.endofWeek = moment(this.dateSel).endOf('week').format('YYYY-MM-DD');
     this.begofWeek = moment(this.dateSel).startOf('week').format('YYYY-MM-DD');
@@ -157,8 +202,7 @@ export class DashboardComponent implements OnInit {
       // console.log(day);
     }
 
-    console.log(this.payments);
-    console.log(this.days);
+
     // console.log(this.endofWeek);
     // console.log(this.begofWeek);
   }
@@ -175,8 +219,18 @@ export class DashboardComponent implements OnInit {
             data: this.payments,
             fill: false,
             lineTension: 0.2,
-            borderColor: 'red',
+            borderColor: 'black',
             borderWidth: 1,
+            backgroundColor: [
+              '#ff6384',
+              '#36a2eb',
+              '#cc65fe',
+              '#ffce56',
+              '#5aff21',
+              '#4155ff',
+              '#ff34d9',
+
+            ]
           }],
         },
         options: {
@@ -194,8 +248,8 @@ export class DashboardComponent implements OnInit {
               type: 'time',
               time: {
                 unit: 'day',
-                min: this.begofWeek,
-                max: this.endofWeek,
+                // min: this.begofWeek,
+                // max: this.endofWeek,
               }
             }]
           }
@@ -203,4 +257,37 @@ export class DashboardComponent implements OnInit {
 
       });
   }
+
+  private createCenterwiseCollectionChart(){
+    this.CenterChart = new Chart('CenterwiseCollectionsChart',
+      {
+        type: 'pie',
+        data: {
+          labels: this.centerNames,
+          datasets: [{
+            label: 'amount paid',
+            data: this.centerAmounts,
+            fill: false,
+            lineTension: 0.2,
+            borderColor: 'black',
+            borderWidth: 1,
+            backgroundColor: [
+              '#ff6384',
+              '#36a2eb',
+              '#cc65fe',
+              '#ffce56'
+              ]
+          }],
+        },
+        options: {
+          title: {
+            text: 'Current month collection centerwise Destribution',
+            display: true
+          },
+          responsive: true,
+        },
+
+      });
+  }
+
 }
