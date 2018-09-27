@@ -10,9 +10,9 @@
           <div id="empInfo">
           <section id="searchSection">
             <form class="mem_search">
- 
-              <mat-form-field class="mem_search_suggestions"> 
-                <input #nameInput  type="text" placeholder="search by name"  matInput [formControl]="searchNameForm" 
+
+              <mat-form-field class="mem_search_suggestions">
+                <input #nameInput  type="text" placeholder="search by name"  matInput [formControl]="searchNameForm"
                 [matAutocomplete]="auto" [(ngModel)] = 'nameSel'>
                 <!-- declaring the form control-->
                 <mat-autocomplete #auto="matAutocomplete">
@@ -22,13 +22,13 @@
                   <!-- adding filtered list of elements to the pane-->
                 </mat-autocomplete>
               </mat-form-field>
-              
+
             </form>
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)] = 'dateSel'>
+                <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)] = 'dateSel' data-date-format='YYYY-MM-DD' >
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+            </mat-form-field>
               <button mat-stroked-button color="primary" id="btnSearch" (click)="onFindBtnClicked()">
                 <!-- <i class="far fa-search fa-3x"></i> -->
                 find
@@ -37,7 +37,7 @@
           <section id="empMap">
             <!-- creating the map with specifying the coordinates that the map should be centered on  -->
             <agm-map [latitude]="lati" [longitude]="long" (mapclick)="mapClicked(event)"  >
-              <!-- create a set of markers on the map through for loop , markets 
+              <!-- create a set of markers on the map through for loop , markets
                 langitude and longitude should be provided -->
               <agm-marker  *ngFor="let marker of markers" [latitude]="marker.lati" [longitude]="marker.long" >
                 <!-- giving an information window when the marker is clicked -->
