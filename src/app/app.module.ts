@@ -34,6 +34,8 @@ import {
   MatExpansionModule,
   MatIconModule,
   MatListModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material';
 
 
@@ -71,6 +73,8 @@ import {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAWDz8nTa-dX9SsLdeIQSckoJ-XUqXjc3U'
     }),
+    MatDatepickerModule,
+    MatNativeDateModule,
 
   ],
   entryComponents: [

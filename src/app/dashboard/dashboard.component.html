@@ -6,13 +6,14 @@
     </mat-drawer>
     <mat-drawer-content>
       <mat-grid-list cols="2" rowHeight="1:3">
-        <mat-grid-tile colspan="1">
+        <mat-grid-tile colspan="1" >
+          <div id="empInfo">
           <section id="searchSection">
             <form class="mem_search">
-
-              <mat-form-field class="mem_search_suggestions"> <!-- creating the form fild -->
-                <input #nameInput  type="text" placeholder="search by name"  matInput [formControl]="searchNicForm" [matAutocomplete]="auto"
-                       (keyup.enter)="onNameEnter(nameInput.value)" >
+ 
+              <mat-form-field class="mem_search_suggestions"> 
+                <input #nameInput  type="text" placeholder="search by name"  matInput [formControl]="searchNameForm" 
+                [matAutocomplete]="auto" [(ngModel)] = 'nameSel'>
                 <!-- declaring the form control-->
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option  *ngFor="let option of filteredOptions | async " [value]="option" >
@@ -21,13 +22,32 @@
                   <!-- adding filtered list of elements to the pane-->
                 </mat-autocomplete>
               </mat-form-field>
+              
             </form>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)] = 'dateSel'>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <button mat-stroked-button color="primary" id="btnSearch" (click)="onFindBtnClicked()">
+                <!-- <i class="far fa-search fa-3x"></i> -->
+                find
+              </button>
           </section>
           <section id="empMap">
-            <agm-map [latitude]="lati" [longitude]="long" (mapclick)="mapClicked(event)" >
-              <agm-marker [latitude]="lati" [longitude]="long"  >gamapaha center</agm-marker>
+            <!-- creating the map with specifying the coordinates that the map should be centered on  -->
+            <agm-map [latitude]="lati" [longitude]="long" (mapclick)="mapClicked(event)"  >
+              <!-- create a set of markers on the map through for loop , markets 
+                langitude and longitude should be provided -->
+              <agm-marker  *ngFor="let marker of markers" [latitude]="marker.lati" [longitude]="marker.long" >
+                <!-- giving an information window when the marker is clicked -->
+                <agm-info-window>
+                   <p> Time : {{marker.time}}</p>
+                </agm-info-window>
+              </agm-marker>
             </agm-map>
           </section>
+          </div>
         </mat-grid-tile>
         <mat-grid-tile>2</mat-grid-tile>
       </mat-grid-list>
