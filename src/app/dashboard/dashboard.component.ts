@@ -8,12 +8,12 @@ import * as moment from 'moment';
 
 
 
-import {Router} from '@angular/router';
-import {SideBarComponent} from '../side-bar/side-bar.component';
-import { forEach } from '@angular/router/src/utils/collection';
-import { Options } from 'selenium-webdriver/ie';
+// import {Router} from '@angular/router';
+// import {SideBarComponent} from '../side-bar/side-bar.component';
+
+
 // import { Options } from 'selenium-webdriver/ie';
-import { emptyScheduled } from 'rxjs/internal/observable/empty';
+
 
 
 
@@ -55,6 +55,10 @@ export class DashboardComponent implements OnInit {
   centerNames: string[] = [];
   CenterChart = [];
 
+  // varibles related to loans granted chart
+  grantedAmounts: string[] = [];
+  weeklist: string[] = [];
+
   constructor(private  apiService: ApiService) {
   }
 
@@ -65,6 +69,7 @@ export class DashboardComponent implements OnInit {
         startWith(''),
         map(value => this.filter(value))
       );
+    this.getWeeklyLoansGrantedInfo();
 
     // this.getEmployeeLoc('953280086v');
   }
@@ -90,7 +95,7 @@ export class DashboardComponent implements OnInit {
       .subscribe((locations: Array<object>) => {
         locations.forEach((loc) => {
           const time = loc['timestamp'].toString().substring(11, 19);
-          console.log(time);
+          // console.log(time);
           const marker = {
             lati: loc['latitude'],
             long: loc['logitude'],
@@ -98,7 +103,7 @@ export class DashboardComponent implements OnInit {
           };
           this.markers.push(marker);
         });
-        console.log(this.markers);
+        // console.log(this.markers);
       });
   }
 
@@ -111,12 +116,12 @@ export class DashboardComponent implements OnInit {
       console.log(emp);
       if (this.nameSel === emp['name']) {
         nic = emp['nic'];
-        // return;
+        this.getEmployeeLoc(nic);
+        this.getEmployeeChartData(nic);
+        this.getCenterwiseCollectionData(nic);
       }
     });
-    this.getEmployeeLoc(nic);
-    this.getEmployeeChartData(nic);
-    this.getCenterwiseCollectionData(nic);
+
     // console.log(nic);
   }
 
@@ -125,7 +130,7 @@ export class DashboardComponent implements OnInit {
       .subscribe((employees: Array<object>) => {
         employees.forEach((emp) => {
 
-          console.log();
+          // console.log();
 
           this.options.push(emp['firstName'] + ' ' + emp['lastName']);
           const empInfo = {
@@ -135,17 +140,17 @@ export class DashboardComponent implements OnInit {
           };
           this.employeeInfo.push(empInfo);
         });
-        console.log(this.employeeInfo);
+        // console.log(this.employeeInfo);
       });
   }
 
 
 // chart cretion functions
-  private  getCenterwiseCollectionData(nic){
+  private  getCenterwiseCollectionData(nic) {
     const month = moment(this.dateSel).format('YYYY-MM');
     // console.log(month);
     this.apiService.getUrl(`cen`)
-      .subscribe((centers: Array<object>) =>{
+      .subscribe((centers: Array<object>) => {
           let i = 0;
          centers.forEach((cen) => {
            // console.log(cen);
@@ -177,10 +182,42 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  private getWeeklyLoansGrantedInfo() {
+    const todaysDate = moment();
+    const firstDay = todaysDate.startOf('week').format('YYYY-MM-DD'); // get the first day of the week
+    const lastDay = todaysDate.endOf('week').format('YYYY-MM-DD'); // the last day of the week
+    // console.log(firstDay);
+    // console.log(lastDay);
+    let dtStart = firstDay;
+    let dtEnd = lastDay;
+    let j = 8; // j is used to check whther all the asynchrounous calls were recived
+    for (let i = 8 ; i > 0; i--) {
+      console.log(dtStart + ' ' + dtEnd);
+      this.apiService.getUrl(`loan/${dtStart}/${dtEnd}`)
+        .subscribe((amtGranted) => {
+          console.log(amtGranted);
+          j--;
+          this.grantedAmounts.push(amtGranted['total']);
+          if ( j === 1 ) {
+            this.createWeeklyLoansGrantedChart();
+            console.log(this.grantedAmounts);
+            console.log(this.weeklist);
+          }
+        });
+      this.weeklist.push(`${dtStart.substring(5, 10)} - ${dtEnd.substring(5, 10)}`);
+      dtStart = moment(dtStart).subtract(1, 'week').format('YYYY-MM-DD'); // substract 7 days from the current date
+      // console.log(dtStart);
+      dtEnd = moment(dtEnd).subtract(1, 'week').format('YYYY-MM-DD');
+      // console.log(dtEnd);
+
+
+    }
+
+  }
 
   private getEmployeeChartData(nic) {
     this.endofWeek = moment(this.dateSel).endOf('week').format('YYYY-MM-DD');
-    this.begofWeek = moment(this.dateSel).startOf('week').format('YYYY-MM-DD');
+    this.begofWeek = moment(this.dateSel).startOf('week');
     let day = this.begofWeek;
     for (let i = 0; i < 7; i++) {
       this.apiService.getUrl(`pmt/${nic}/${day}`)
@@ -215,7 +252,7 @@ export class DashboardComponent implements OnInit {
         data: {
           labels: this.days,
           datasets: [{
-            label: 'amount paid',
+            label: 'Amount collected',
             data: this.payments,
             fill: false,
             lineTension: 0.2,
@@ -235,7 +272,7 @@ export class DashboardComponent implements OnInit {
         },
         options: {
           title: {
-            text: 'Current Week collection Destribution',
+            text: 'Collections amount by each day',
             display: true
           },
           scales: {
@@ -258,7 +295,7 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  private createCenterwiseCollectionChart(){
+  private createCenterwiseCollectionChart() {
     this.CenterChart = new Chart('CenterwiseCollectionsChart',
       {
         type: 'pie',
@@ -290,4 +327,53 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  private createWeeklyLoansGrantedChart() {
+    this.LineChart = new Chart('WeeklyLoanGrantedChart',
+      {
+        type: 'bar',
+        data: {
+          labels: this.weeklist,
+          datasets: [{
+            label: 'amount paid',
+            data: this.grantedAmounts,
+            fill: false,
+            lineTension: 0.2,
+            borderColor: 'black',
+            borderWidth: 1,
+            backgroundColor: [
+              '#ff6384',
+              '#36a2eb',
+              '#cc65fe',
+              '#ffce56',
+              '#5aff21',
+              '#4155ff',
+              '#ff34d9',
+
+            ]
+          }],
+        },
+        options: {
+          title: {
+            text: 'Loan Granted Amount Timewise Analysis',
+            display: true
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+              }
+            }],
+            xAxes: [{
+              // type: 'time',
+              // time: {
+              //   unit: 'day',
+              //   // min: this.begofWeek,
+              //   // max: this.endofWeek,
+              // }
+            }]
+          }
+        },
+
+      });
+  }
 }

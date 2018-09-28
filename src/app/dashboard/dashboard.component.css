@@ -39,7 +39,7 @@ agm-map{
 #searchSection{
   display: flex;
   flex-direction: row;
-  align-items: space-between;
+  align-items: flex-start;
   justify-content: space-around;
 }
 
@@ -47,4 +47,17 @@ agm-map{
   margin-left: 10px;
   height: 50px;
   align-self: center;
+}
+
+
+/*******  rgiht pane css setting***********/
+#weeklyCollections{
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+#weeklyloangrantedchart{
+  width: 400px;
+  height: 700px;
 }
