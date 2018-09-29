@@ -111,6 +111,13 @@ mem_search {
 
   align-items: flex-start;
 }
+
+#center_pane{
+  diplay:flex;
+  flex-direction: column;
+  align-self: flex-start;
+  align-items: flex-start;
+}
 mat-expansion-panel-header{
   width: inherit;
 }

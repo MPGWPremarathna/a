@@ -5,7 +5,8 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {Chart} from 'chart.js';
 import * as moment from 'moment';
-
+import {Moment} from 'moment';
+import {MatDatepicker} from '@angular/material';
 
 
 // import {Router} from '@angular/router';
@@ -58,12 +59,21 @@ export class DashboardComponent implements OnInit {
   // varibles related to loans granted chart
   grantedAmounts: string[] = [];
   weeklist: string[] = [];
+  LoansGrantedChart = [];
+
+
+  // vriables related to centewise loans granted destribution
+  dateLnsGrt: string;
+  centerNameLnsGrt: string [] = [];
+  amountLnsGrt: string[] = [];
+  CenterLnsGrtChart = [];
 
   constructor(private  apiService: ApiService) {
   }
 
   ngOnInit() {
     this.getAllEmployees();
+
     this.filteredOptions = this.searchNameForm.valueChanges
       .pipe(
         startWith(''),
@@ -86,6 +96,19 @@ export class DashboardComponent implements OnInit {
     console.log(event);
   }
 
+  // month picker congerations
+  chosenYearHandler(normalizedYear: Moment) {
+    this.dateLnsGrt = moment(normalizedYear).format('YYYY');
+    // console.log(this.dateLnsGrt);
+  }
+
+  chosenMonthHandler(normlizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    this.dateLnsGrt = this.dateLnsGrt + '-' + moment(normlizedMonth).format('MM');
+    // console.log(this.dateLnsGrt);
+    datepicker.close();
+    this.emptyCenterwiseLoansGranted();
+    this.getCenterwiseLoansGrantedData();
+  }
 
   private getEmployeeLoc(nic) {
     const momentDate = moment(this.dateSel).format('YYYY-MM-DD'); // the input date is given as this.dateSel
@@ -146,6 +169,32 @@ export class DashboardComponent implements OnInit {
 
 
 // chart cretion functions
+
+  private  getCenterwiseLoansGrantedData(){
+    this.apiService.getUrl(`cen`)
+      .subscribe((centers: Array<object>) => {
+        let i = 0;  // i used to check whether all the data has recived
+        centers.forEach((cen) => {
+          // console.log(cen['idcenter']);
+          this.apiService.getUrl(`lc/loansGranted/sum/${cen['idcenter']}/${this.dateLnsGrt}`)
+            .subscribe((loanInfo) => {
+              i++;
+              console.log(loanInfo['centerName']);
+              console.log(loanInfo['total']);
+              this.centerNameLnsGrt.push(loanInfo['centerName']);
+              this.amountLnsGrt.push(loanInfo['total']);
+              if ( i === centers.length ){
+                this.createCenterwiseLoansGrantedChart();
+                console.log(this.centerNameLnsGrt);
+                console.log(this.amountLnsGrt);
+              }
+            });
+        });
+      });
+
+  }
+
+
   private  getCenterwiseCollectionData(nic) {
     const month = moment(this.dateSel).format('YYYY-MM');
     // console.log(month);
@@ -195,7 +244,7 @@ export class DashboardComponent implements OnInit {
       console.log(dtStart + ' ' + dtEnd);
       this.apiService.getUrl(`loan/${dtStart}/${dtEnd}`)
         .subscribe((amtGranted) => {
-          console.log(amtGranted);
+          // console.log(amtGranted);
           j--;
           this.grantedAmounts.push(amtGranted['total']);
           if ( j === 1 ) {
@@ -216,8 +265,8 @@ export class DashboardComponent implements OnInit {
   }
 
   private getEmployeeChartData(nic) {
-    this.endofWeek = moment(this.dateSel).endOf('week').format('YYYY-MM-DD');
-    this.begofWeek = moment(this.dateSel).startOf('week');
+    this.endofWeek = moment(this.dateSel).endOf('week').format('YYYY-MM-DD').toString();
+    this.begofWeek = moment(this.dateSel).startOf('week').toString();
     let day = this.begofWeek;
     for (let i = 0; i < 7; i++) {
       this.apiService.getUrl(`pmt/${nic}/${day}`)
@@ -328,7 +377,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private createWeeklyLoansGrantedChart() {
-    this.LineChart = new Chart('WeeklyLoanGrantedChart',
+    this.LoansGrantedChart = new Chart('WeeklyLoanGrantedChart',
       {
         type: 'bar',
         data: {
@@ -376,4 +425,72 @@ export class DashboardComponent implements OnInit {
 
       });
   }
+
+  private createCenterwiseLoansGrantedChart(){
+    this.CenterLnsGrtChart = new Chart('CenterwiseLoanGrantedChart',
+      {
+        type: 'pie',
+        data: {
+          labels: this.centerNameLnsGrt,
+          datasets: [{
+            label: 'amount paid',
+            data: this.amountLnsGrt,
+            fill: false,
+            lineTension: 0.2,
+            borderColor: 'black',
+            borderWidth: 1,
+            backgroundColor: [
+              '#ff34d9',
+              '#9ff72a',
+              '#58fcfe',
+              '#e38128'
+            ]
+          }],
+        },
+        options: {
+          title: {
+            text: 'Centerwise Loans Granted Destribution',
+            display: true
+          },
+          responsive: true,
+        },
+
+      });
+  }
+
+
+  //emptying all the charts
+  private emptyAll(){
+    // clearing all the charts and datasets in the relaod
+
+    // emp collection chart
+    this.LineChart = [];
+    this.payments = [];
+    this.days = [];
+
+    // regard centerwise collecetion chart
+    this.centerAmounts = [];
+    this.centerNames = [];
+    this.CenterChart = [];
+
+    // regard to loans granted chart
+    this.grantedAmounts = [];
+    this.weeklist = [];
+    this.LoansGrantedChart = [];
+
+    // reagrd to enterwise loans granted destributioon
+    this.centerNameLnsGrt  = [];
+    this.amountLnsGrt = [];
+    this.CenterLnsGrtChart = [];
+  }
+
+  private emptyCenterwiseLoansGranted(){
+    // reagrd to enterwise loans granted destributioon
+    this.centerNameLnsGrt  = [];
+    this.amountLnsGrt = [];
+    this.CenterLnsGrtChart = [];
+  }
+
+
+
 }

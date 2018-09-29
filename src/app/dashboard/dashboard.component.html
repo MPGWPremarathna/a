@@ -68,18 +68,41 @@
           </section>
           </div>
         </mat-grid-tile>
-        <mat-grid-tile>
-          <section id="weeklyCollections">
-            <table>
-              <tr >
-                <td style="width: 700px; height: 50%">
-                  <canvas id="WeeklyLoanGrantedChart">
+        <mat-grid-tile >
+          <div id="rightPane">
+            <section id="weeklyCollections">
+              <table>
+                <tr >
+                  <td style="width: 700px; height: 50%">
+                    <canvas id="WeeklyLoanGrantedChart">
 
-                  </canvas>
-                </td>
-              </tr>
-            </table>
-          </section>
+                    </canvas>
+                  </td>
+                </tr>
+              </table>
+            </section>
+            <section id="centerwiseLoansGranted">
+              <mat-form-field id="monthYearInput">
+                <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp
+                                startView="multi-year"
+                                (yearSelected)="chosenYearHandler($event)"
+                                (monthSelected)="chosenMonthHandler($event, dp)"
+                                panelClass="example-month-picker">
+                </mat-datepicker>
+              </mat-form-field>
+              <table>
+                <tr >
+                  <td style="width: 700px; height: 50%">
+                    <canvas id="CenterwiseLoanGrantedChart">
+
+                    </canvas>
+                  </td>
+                </tr>
+              </table>
+            </section>
+          </div>
 
         </mat-grid-tile>
       </mat-grid-list>

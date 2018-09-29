@@ -35,9 +35,9 @@ export class MembersComponent implements OnInit {
   leaderName: String = 'leader01';
   teamName: String = 'team01';
   centerName: String = 'Gampaha';
-  loanAmount: number = 0.0;
-  shouldPay: number = 0.00;
-  paid: number = 0.00;
+  loanAmount: Number = 0.0;
+  shouldPay: Number = 0.00;
+  paid: Number = 0.00;
   attedencePercent: Number = 95.0;
   nic: String = 'nic01';
   birtdate: String = '';
@@ -229,13 +229,13 @@ export class MembersComponent implements OnInit {
   private getLoanData() {
     this.apiService.getUrl(`lc/${this.nic}/${this.companyId}/1`)
       .subscribe((result) => {
-        // console.log(result);
+        console.log(result);
         this.loanAmount = result['amount'];
         this.grantedDate = result['grantedDate'].substring(0, 10);
         this.dueDate = result['dueDate'].substring(0 , 10);
 
         // getting the sum of the payments
-        this.apiService.getUrl(`pmt/sum/${result['idLoanCycle']}`)
+        this.apiService.getUrl(`pmt/sum/sum2/sum3/${result['idLoanCycle']}`)
           .subscribe((amount) => {
             // console.log(amount);
             this.paid = Number.parseInt(amount['sum(payment.amount)'].toString());
@@ -244,7 +244,7 @@ export class MembersComponent implements OnInit {
           });
 
             // getting the individual payments amounts for the chart
-        this.apiService.getUrl(`pmt/lcid/${result['idLoanCycle']}`)
+        this.apiService.getUrl(`pmt/lcid/lcid2/lcid3/${result['idLoanCycle']}`)
           .subscribe( (pmnts: Array<object>) => {
             let cumAmount: number = 0;
             pmnts.forEach((pmt) => {

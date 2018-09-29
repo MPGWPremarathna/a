@@ -51,10 +51,26 @@ agm-map{
 
 
 /*******  rgiht pane css setting***********/
+#rightPane{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
+}
 #weeklyCollections{
   display: flex;
+  flex-direction: row;
   align-self: flex-start;
   align-items: flex-start;
+}
+#centerwiseLoansGranted{
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+
+}
+#monthYearInput{
+  width: 200px;
 }
 
 #weeklyloangrantedchart{
